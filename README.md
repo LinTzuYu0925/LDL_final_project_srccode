@@ -7,11 +7,11 @@
 利用兩個步進馬達，一個做橫桿的移動，一個做圓盤的轉動，達到手沖咖啡時由內到外的轉動。再
 利用一個抽水馬達將水抽出。其中，利用課堂所學之螢幕作為操作者介面，鍵盤為輸入訊號。我們
 的咖啡機可選擇三種不同的主流沖泡方式及五個最適當的粉水比。
-![image](https://hackmd.io/_uploads/S1JhIvz1ye.png)
+![image](/LDL_final_project_srccode/Pictures/成品照.png)
 
 ## 實作過程
 1. State Diagram：主要分成 IDLE、選擇沖煮方式、設定粉水比、沖煮四個主要state。
-![image](https://hackmd.io/_uploads/HJV9wvM1Jl.png)
+![image](/LDL_final_project_srccode/Pictures/state_diagrame.png)
 ```verilog
 always @(*) begin
     if (state == 2'b00) begin
@@ -44,10 +44,10 @@ end
 
 2. Brewing 時的 state diagram
 因為不同的沖煮方式有不同的步驟，所以要走的state diagram也當然不同。（這裡的code太長，我覺得放了也沒多大意義就先跳過）
-![image](https://hackmd.io/_uploads/rkqxDvf1kx.png)
+![image](/LDL_final_project_srccode/Pictures/pouring_state_diagrame.png)
 
 3. Block diagram
-![image](https://hackmd.io/_uploads/HJCEPvGkye.png)
+![image](/LDL_final_project_srccode/Pictures/block_diagrame.png)
 Block diagram 如上，最主要的就是state_FSM及pouring_state_FSM兩個在控制我們的機組，並且是由keyboard端輸入，VGA端輸出到螢幕。
 
 4. Mode FSM
@@ -135,7 +135,7 @@ endmodule;
 
 7. 轉動平面馬達
 這顆馬達主要負責將有貼著雷蛇貼紙的紙片轉動。我們利用竹筷夾住馬達的軸。此外，在上下兩層的圓周增加紙壁增加轉動時的固定度。
-![image](https://hackmd.io/_uploads/H1P4_PGkyg.png)
+![image](/LDL_final_project_srccode/Pictures/plate_motor.png)
 ```verilog
 module plate_motor_ctrl (
     input clk,
@@ -155,7 +155,7 @@ assign water_pump = (pouring_state == `POUR || pouring_state == `ONE_SPOT);
 
 8. 抽水馬達
 首先，因為抽水馬達沒有訊號接收的功能，因此我們將它額外多接在一個繼電器上，讓它能依照我們想要的時機時在運作。這個馬達一樣是在pour、one spot state時才需轉動。
-![image](https://hackmd.io/_uploads/B1X_uDM1yg.png)
+![image](/LDL_final_project_srccode/Pictures/water_pump.png)
 
 9. 橫桿馬達
 這顆馬達是最難做的，主要是因為要用steps計算我們想要的距離，且同時要做好時間的控制，而且每個state都有不同的移動方式。
@@ -199,4 +199,4 @@ endmodule
 2. 馬達帶動的齒輪和軌道上的齒輪無法完全密合，導致計算上沒問題但實際跑起來卻常出問題。 
 3. 抽水馬達一通電便開始運作，如同前面所提。因此我們才多連接一個繼電器達到訊號管理。 
 4. 平面轉盤會因承受重量漸漸增加而摩擦力進而太大的卡住，因此我們在機體裡增墊了一個紙杯架高馬達，在同時不破壞平衡的情況下減少其摩擦力。
-![image](https://hackmd.io/_uploads/Byo7Fvz1ye.png)
+![image](/LDL_final_project_srccode/Pictures/Screenshot%202024-10-08%20161113.png)
